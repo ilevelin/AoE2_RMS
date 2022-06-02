@@ -26,35 +26,36 @@ Scripting references:
 	https://www.forgottenempires.net/age-of-empires-ii-definitive-edition/rms-features
 
 Changelog: [ +:Added | -:Removed | *:Adjusted | !:Fixed ]
-	( v0.2 )
+	( v0.2 ) 2021/05/18
 		- Completly removed one of the main golds
 		- Removed one vein from all gold groups
 		* Pushed extra golds further away from players
 		* Pushed extra elephan further away from players
-	( v0.1 )
+	( v0.1 ) 2021/03/21
 		+ Hello World!
 
 */
   
 /* TERRAINS */
-#const BASETERRAIN 16 /* ROCK1 (Grass, Other) */
-#const UPPERTERRAIN 9 /* GRASS3 */
-#const FORESTTERRAIN 10 /* FOREST */
-#const STRAGGLERTYPE 349 /* OAKTREE */
-#const UPPERTERRAINMASK 14 /* DESERT */
-#const CLIFFTERRAIN 100 /* DLC_DRYGRASS */
-#const UPPERFORESTTERRAIN 49 /* DLC_BAOBABFOREST */
+#const TERRAIN_BASE 16 /* ROCK1 (Grass, Other) */
+#const TERRAIN_UPPER 9 /* GRASS3 */
+#const TERRAIN_UPPER_MASK 14 /* DESERT */
+#const TERRAIN_UPPER_FOREST 49 /* DLC_BAOBABFOREST */
+#const TERRAIN_FOREST 10 /* FOREST */
+#const TERRAIN_CLIFF 100 /* DLC_DRYGRASS */
+
+#const OBJECT_STRAGGLER 349 /* OAKTREE */
 
 /*
 <PLAYER_SETUP>
 */
 
 <LAND_GENERATION>
-base_terrain CLIFFTERRAIN
+base_terrain TERRAIN_CLIFF
 
 create_land /* Lower zone */
 {
-	terrain_type BASETERRAIN
+	terrain_type TERRAIN_BASE
 	land_percent 100
 	
 	left_border 13
@@ -65,7 +66,7 @@ create_land /* Lower zone */
 
 create_player_lands /* The protagonists */
 {
-	terrain_type BASETERRAIN
+	terrain_type TERRAIN_BASE
 	number_of_tiles 1
 	if TINY_MAP
 		circle_radius 32
@@ -85,7 +86,7 @@ enable_balanced_elevation
 
 create_elevation 2
 {
-	base_terrain CLIFFTERRAIN
+	base_terrain TERRAIN_CLIFF
 	number_of_tiles 9999
 	number_of_clumps 1
 	set_scale_by_size
@@ -93,7 +94,7 @@ create_elevation 2
 
 create_elevation 1
 {
-	base_terrain BASETERRAIN
+	base_terrain TERRAIN_BASE
 	number_of_tiles rnd(1000,1300)
 	number_of_clumps rnd(30,60)
 	set_scale_by_size
@@ -101,7 +102,7 @@ create_elevation 1
 
 create_elevation 3
 {
-	base_terrain CLIFFTERRAIN
+	base_terrain TERRAIN_CLIFF
 	number_of_tiles rnd(1000,1300)
 	number_of_clumps rnd(100,130)
 	set_scale_by_size
@@ -109,16 +110,16 @@ create_elevation 3
 
 <TERRAIN_GENERATION>
 
-create_terrain UPPERTERRAIN
+create_terrain TERRAIN_UPPER
 {
-	base_terrain CLIFFTERRAIN
+	base_terrain TERRAIN_CLIFF
 	land_percent 100
 	height_limits 2 3
 }
 
-create_terrain FORESTTERRAIN /* Wood Please */
+create_terrain TERRAIN_FOREST /* Wood Please */
 {
-	base_terrain BASETERRAIN
+	base_terrain TERRAIN_BASE
 	land_percent 100
 	if TINY_MAP
 		spacing_to_other_terrain_types 22
@@ -133,16 +134,16 @@ create_terrain FORESTTERRAIN /* Wood Please */
 	endif
 }
 
-create_terrain UPPERTERRAINMASK  /* Upper zone terrain mask */
+create_terrain TERRAIN_UPPER_MASK  /* Upper zone terrain mask */
 {
-	base_terrain UPPERTERRAIN
+	base_terrain TERRAIN_UPPER
 	land_percent 100
 	terrain_mask 1
 }
 
-create_terrain UPPERFORESTTERRAIN 
+create_terrain TERRAIN_UPPER_FOREST 
 {
-	base_terrain UPPERTERRAIN
+	base_terrain TERRAIN_UPPER
 	land_percent 5
 	number_of_clumps 30
 	set_scaling_to_map_size
@@ -191,7 +192,7 @@ else
 		actor_area 1
 		actor_area_radius 2
 		avoid_all_actor_areas
-		terrain_to_place_on BASETERRAIN
+		terrain_to_place_on TERRAIN_BASE
 	}
 	create_object DLC_IBEX
 	{
@@ -204,7 +205,7 @@ else
 		set_gaia_object_only
 		actor_area 2
 		actor_area_radius 20
-		terrain_to_place_on BASETERRAIN
+		terrain_to_place_on TERRAIN_BASE
 	}
 	
 	create_object FORAGE_BUSH
@@ -219,7 +220,7 @@ else
 		actor_area 3
 		actor_area_radius 2
 		avoid_actor_area 2
-		terrain_to_place_on BASETERRAIN
+		terrain_to_place_on TERRAIN_BASE
 	}
 	create_object DLC_IBEX
 	{
@@ -230,7 +231,7 @@ else
 		actor_area_to_place_in 3
 		set_tight_grouping
 		set_gaia_object_only
-		terrain_to_place_on BASETERRAIN
+		terrain_to_place_on TERRAIN_BASE
 	}
 	
 	/* Sheeps */
@@ -243,7 +244,7 @@ else
 		number_of_objects 4
 		set_gaia_object_only
 		set_tight_grouping
-		terrain_to_place_on BASETERRAIN
+		terrain_to_place_on TERRAIN_BASE
 	}
 	create_object SHEEP /* Further ones */
 	{
@@ -255,7 +256,7 @@ else
 		temp_min_distance_group_placement 10
 		set_gaia_object_only
 		set_tight_grouping
-		terrain_to_place_on BASETERRAIN
+		terrain_to_place_on TERRAIN_BASE
 	}
 
 	/* Boars */
@@ -268,7 +269,7 @@ else
 		set_gaia_object_only
 		avoid_forest_zone 2
 		temp_min_distance_group_placement 25
-		terrain_to_place_on BASETERRAIN
+		terrain_to_place_on TERRAIN_BASE
 	}	
 	create_object DLC_ELEPHANT
 	{
@@ -279,18 +280,18 @@ else
 		set_gaia_object_only
 		avoid_forest_zone 2
 		temp_min_distance_group_placement 25
-		terrain_to_place_on BASETERRAIN
+		terrain_to_place_on TERRAIN_BASE
 	}
 
 	/* Player Stragglers */
-	create_object STRAGGLERTYPE
+	create_object OBJECT_STRAGGLER
 	{
 		number_of_groups 6
 		set_place_for_every_player
 		min_distance_to_players 2
 		max_distance_to_players 8
 		set_gaia_object_only
-		terrain_to_place_on BASETERRAIN
+		terrain_to_place_on TERRAIN_BASE
 		temp_min_distance_group_placement 3
 	}
 endif
@@ -301,7 +302,7 @@ create_object DLC_ZEBRA
 	number_of_objects 1
 	number_of_groups 7
 	set_scaling_to_player_number
-	terrain_to_place_on BASETERRAIN
+	terrain_to_place_on TERRAIN_BASE
 	min_distance_to_players 30
 	temp_min_distance_group_placement 10
 }
@@ -312,20 +313,20 @@ create_object FORAGE_BUSH
 	number_of_groups 2
 	set_tight_grouping
 	set_scaling_to_player_number
-	terrain_to_place_on BASETERRAIN
+	terrain_to_place_on TERRAIN_BASE
 	min_distance_to_players 30
 	temp_min_distance_group_placement 12
 }
 
 
 /* Other Stragglers */
-create_object STRAGGLERTYPE
+create_object OBJECT_STRAGGLER
 {
 	number_of_groups 500
 	set_scale_by_groups
 	min_distance_to_players 12
 	set_gaia_object_only
-	terrain_to_place_on BASETERRAIN
+	terrain_to_place_on TERRAIN_BASE
 	temp_min_distance_group_placement 5
 	avoid_all_actor_areas
 }
@@ -339,7 +340,7 @@ create_object GOLD
 	set_place_for_every_player
 	set_gaia_object_only
 	min_distance_to_players 1
-	terrain_to_place_on UPPERTERRAIN
+	terrain_to_place_on TERRAIN_UPPER
 	if TINY_MAP
 		max_distance_to_players 25
 	elseif SMALL_MAP
@@ -363,7 +364,7 @@ create_object STONE
 	set_place_for_every_player
 	set_gaia_object_only
 	min_distance_to_players 1
-	terrain_to_place_on UPPERTERRAIN
+	terrain_to_place_on TERRAIN_UPPER
 	if TINY_MAP
 		max_distance_to_players 25
 	elseif SMALL_MAP
@@ -385,7 +386,7 @@ create_object GOLD
 	number_of_groups 7
 	set_tight_grouping
 	set_scaling_to_map_size
-	terrain_to_place_on UPPERTERRAIN
+	terrain_to_place_on TERRAIN_UPPER
 	temp_min_distance_group_placement 15
 	if TINY_MAP
 		min_distance_to_players 32
@@ -407,7 +408,7 @@ create_object STONE
 	number_of_groups 3
 	set_tight_grouping
 	set_scaling_to_map_size
-	terrain_to_place_on UPPERTERRAIN
+	terrain_to_place_on TERRAIN_UPPER
 	temp_min_distance_group_placement 30
 	if TINY_MAP
 		min_distance_to_players 30
@@ -425,7 +426,7 @@ create_object STONE
 /* Relics */
 create_object RELIC
 {
-	terrain_to_place_on UPPERTERRAIN
+	terrain_to_place_on TERRAIN_UPPER
 	min_distance_to_players 25
 	number_of_objects 1
 	number_of_groups 3
@@ -437,7 +438,7 @@ create_object RELIC
 
 create_object RELIC
 {
-	terrain_to_place_on UPPERTERRAIN
+	terrain_to_place_on TERRAIN_UPPER
 	min_distance_to_players 25
 	number_of_objects 1
 	number_of_groups 1
